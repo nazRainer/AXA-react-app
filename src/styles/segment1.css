@@ -1,0 +1,156 @@
+.landing-div {
+    top: 0;
+    background-color: #f8f8f8;
+    height: 100vh;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.curlec-logo {
+    top: 0;
+    position: absolute;
+    z-index: 100;
+}
+
+.emedic-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.image-wrapper {
+    background-image: url("./kelly-sikkema-WvVyudMd1Es-unsplash.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+    top: 0;
+    opacity: 32%;
+}
+.landing-title {
+    font-weight: 300;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+}
+
+.landing-div p {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.title1 {
+    position: relative;
+    width: 98vw;
+    text-align: center;
+    font-weight: 400;
+}
+
+.title2 {
+    font-weight: 200;
+    width: 92vw;
+    text-align: center;
+}
+
+.check-price-btn {
+    position: absolute;
+    left: 50%;
+    top: 75vh;
+    transform: translate(-50%, -50%) scale(1);
+    white-space: nowrap;
+    cursor: pointer;
+    padding: 0.6em 1.4em 0.6em 1.4em;
+    background-color: #aa80cf;
+    border-radius: 30px;
+    color: #f8f8f8;
+    transition: transform ease-out 0.2s;
+    user-select: none;
+    font-weight: 200;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.check-price-btn:hover {
+    transform: translate(-50%, -50%) scale(1.08)
+}
+
+/*desktop media query*/
+@media screen and (min-width: 500px) {
+    .curlec-logo {
+        width: 13vw;
+        margin-left: 55px;
+        margin-top: 36px;
+        height: auto;
+    }
+
+    .emedic-logo {
+        top: 24%;
+        width: 35vw;
+    }
+
+    .image-wrapper {
+        background-position: 50% 45%;
+    }
+    .landing-title {
+        font-size: 5.5vw;
+    }
+
+    .landing-div p {
+        font-size: 2.5vw;
+    }
+
+    .title1 {
+        margin-top: 1.5em;
+    }
+
+    .title2 {
+        margin-top: 5.0em;
+    }
+
+    .check-price-btn {
+        margin-top: 100px;
+        font-size: 2.0vw;
+    }
+}
+
+/*mobile media query*/
+@media screen and (max-width: 500px) {
+    .curlec-logo {
+        width: 120px;
+        margin-left: 16px;
+        margin-top: 16px;
+        height: auto;
+    }
+
+    .emedic-logo {
+        top: 27%;
+        width: 200px;
+    }
+
+    .landing-title {
+        top: 32%;
+        font-size: 10.5vw;
+        white-space: normal;
+        text-align: center;
+        width: 95vw;
+    }
+
+    .landing-div p {
+        font-size: 4.8vw;
+    }
+    
+    .title2 {
+        margin-top: 6.8em;
+    }
+
+    .check-price-btn {
+        margin-top: 60px;
+        font-size: 4.5vw;
+    }
+}

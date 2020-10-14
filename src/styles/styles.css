@@ -1,0 +1,10 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 300vh;
+    width: 100%;
+    z-index: -1;
+}

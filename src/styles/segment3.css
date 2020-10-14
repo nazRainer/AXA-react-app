@@ -1,0 +1,108 @@
+.third-seg-background-wrapper {
+    position: absolute;
+    top: 200vh;
+    width: 100vw;
+    min-height: 100vh;
+    background-color: #f8f8f8;
+}
+
+.faq-header {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
+    position: relative;
+    width: 80vw;
+}
+
+.faq {
+    left: 50%;
+    transform: translateX(-50%);
+    position: relative;
+    width: 75vw;
+    display: flex;
+    flex-direction: column;
+    flex: 50%;
+    align-items: left;
+    font-size: 2vw;
+}
+
+.dropdown-bars {
+    font-family: 'Montserrat', sans-serif;
+    border-bottom: 1px solid black;
+    padding-bottom: 2vh;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+
+.dropdown-bars:hover {
+    background-color: #ccc;
+}
+
+.dropdown-content-closed {
+    font-weight: 200;
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height;
+}
+
+.dropdown-content-open {
+    font-weight: 200;
+    font-family: 'Montserrat', sans-serif;
+    max-height: 100%;
+    -moz-transition: 1s;
+    -ms-transition: 1s;
+    -o-transition: 1s;
+    -webkit-transition: 1s;
+    transition: 1s;
+}
+
+.dropdown-bars h1 {
+    font-weight: 200;
+    vertical-align: middle;
+}
+
+@keyframes expand {
+    0% {
+        max-height: 0;
+    }
+
+    100% {
+        max-height: 100%;
+    }
+}
+
+/*desktop media query*/
+@media screen and (min-width: 500px) {
+    .faq {
+        margin-top: 10.5vh;
+    }
+
+    .faq-header {
+        font-size: 4vw;
+        margin-bottom: 40px;
+    }
+
+    .dropdown-bars {
+        font-size: 30px;
+        width: 100%;
+        margin-top: 2.5vh;
+        margin-bottom: 2.5vh;
+    }
+}
+
+/*mobile media query*/
+@media screen and (max-width: 500px) {
+    .faq {
+        margin-top: 5.5vh;
+    }
+
+    .faq-header {
+        font-size: 26px;
+    }
+    .dropdown-bars {
+        width: 100%;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
+    }
+}
