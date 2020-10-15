@@ -6,9 +6,11 @@ class FaqBody extends Component {
         return (
             <div className="faq">
                 <h1 className="faq-header">Frequently Asked Questions</h1>
-                {faqelementshtml.map((props) => 
-                    <FaqElements h1={props.h1} htmlcontent={props.htmlcontent}/>
-                )}
+                <div className="faq-elements">
+                    {faqelementshtml.map((props) => 
+                        <FaqElements h1={props.h1} htmlcontent={props.htmlcontent}/>
+                    )}
+                </div>
             </div>
         )
     }
@@ -16,7 +18,7 @@ class FaqBody extends Component {
 
 const faqelementshtml = [
     {
-        h1: "Am I eligible",
+        h1: "Am I eligible?",
         htmlcontent: `
         <p>
             Children - As young as 15 days old

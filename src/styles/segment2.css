@@ -1,9 +1,8 @@
 .second-seg-background-wrapper {
-    position: absolute;
+    position: relative;
     background-color: #8954ba;
     width: 100%;
     height: 100vh;
-    top: 100vh;
     z-index: 9999;
     font-family: 'Montserrat', sans-serif;
 }
@@ -13,7 +12,6 @@
     padding-top: 10px;
     padding-bottom: 10px;
     position: absolute;
-    
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
@@ -24,7 +22,6 @@
     left: 50%;
     transform: translateX(-50%);
     position: relative;
-    margin-top: 1em;
     width: 95vw;
     display: flex;
     flex-direction: row;
@@ -36,13 +33,13 @@
 /*desktop media query*/
 @media screen and (min-width: 500px) {
     .why-emedic {
-        margin-top: 80px;
+        top: 3rem;
         font-size: 5vw;
     }
     
     .why-emedic-table {
-        margin-top: 25vh;
-        width: 80vw;
+        top: 15rem;
+        width: 90vw;
         height: 65vh;
     }
 
@@ -55,26 +52,26 @@
     }
 
     .emedic-icons-svg svg{
-        width: 8vw;
+        width: 7em;
         height: auto;
         margin-bottom: 18px;
     }
     
     .emedic-icons span {
         display: block;
-        font-size: 2vw;
+        font-size: 1.6em;
     }
 }
 
 /*mobile media query*/
 @media screen and (max-width: 500px) {
     .why-emedic {
-        margin-top: 25px;
+        top: 1.5rem;
         font-size: 10vw;
     }
 
     .why-emedic-table {
-        margin-top: 12.5vh;
+        top: 6rem;
         width: 80vw;
     }
 

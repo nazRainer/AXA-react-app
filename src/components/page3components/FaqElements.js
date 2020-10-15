@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import PlusIcon from "./PlusIcon";
 
 class FaqElements extends Component {
     constructor(props) {
@@ -20,11 +21,12 @@ class FaqElements extends Component {
 
     render() {
         return (
-            <div>
+            <div className="faq-single-elem">
                 <div className="dropdown-bars" onClick={() => this.handleClick()}>
-                    <h1>{this.h1text}</h1>
+                    {this.h1text}
+                    <PlusIcon clicked={this.state.clicked} key={this.state.clicked}/>
                 </div>
-                <div className={`dropdown-content-closed ${this.state.clicked ? "dropdown-content-open" : ""}`} dangerouslySetInnerHTML={{__html: this.content}}></div>
+                <div className={`dropdown-content ${this.state.clicked ? "dropdown-content-open" : "dropdown-content-closed"}`} dangerouslySetInnerHTML={{__html: this.content}}></div>
             </div>
         )
     }

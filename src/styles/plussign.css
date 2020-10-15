@@ -1,0 +1,27 @@
+.close-button {
+    width: 10px;
+    height: 10px;
+    left: 96%;
+    position: absolute;
+    top: 46%;
+    transform: translateX(-50%)
+}
+
+.horizontalbar {
+    position: absolute;
+    background-color: #f8f8f8;
+    width: 22px;
+    height: 4px;
+}
+
+.verticalbar {
+    position: absolute;
+    background-color: #f8f8f8;
+    width: 22px;
+    height: 4px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.bar-closed {
+    transform: rotate(90deg);
+}
