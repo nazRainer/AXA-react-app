@@ -11,6 +11,10 @@ class Page1 extends Component {
         this.curRef = props.curRef;
     }
 
+    shouldComponentUpdate() {
+        return false;
+    }
+
     render() {
         return (
             <div className="landing-div">
