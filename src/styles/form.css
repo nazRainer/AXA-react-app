@@ -1,6 +1,39 @@
 .form {
-    background-color: red;
+    background-color: #8954ba;
     position: relative;
     height: 100vh;
     width: 100%;
+}
+
+.nationality span {
+    font-size: 3em;
+    position: absolute;
+    left: 50%;
+    top: 35%;
+    transform: translate(-50%, -50%);
+    font-family: 'Montserrat', sans-serif;
+    animation-name: fadein;
+    animation-delay: 1s;
+    animation-duration: 2s;
+    color: #f8f8f8;
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/*desktop media query*/
+@media screen and (min-width: 500px) {
+
+}
+
+/*mobile media query*/
+@media screen and (max-width: 500px) {
+    
 }

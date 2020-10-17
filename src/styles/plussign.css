@@ -10,18 +10,38 @@
 .horizontalbar {
     position: absolute;
     background-color: #f8f8f8;
-    width: 22px;
-    height: 4px;
 }
 
 .verticalbar {
     position: absolute;
     background-color: #f8f8f8;
-    width: 22px;
-    height: 4px;
     transition: transform 0.5s ease-in-out;
 }
 
 .bar-closed {
     transform: rotate(90deg);
+}
+
+@media screen and (min-width: 500px) {
+    .horizontalbar {
+        width: 22px;
+        height: 4px;
+    }
+
+    .verticalbar {
+        width: 22px;
+        height: 4px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .horizontalbar {
+        width: 10px;
+        height: 2px;
+    }
+
+    .verticalbar {
+        width: 10px;
+        height: 2px;
+    }
 }

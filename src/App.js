@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Page1 from "./components/Page1";
 import Page2 from "./components/Page2";
 import Page3 from "./components/Page3";
@@ -9,28 +9,33 @@ import "./styles/segment2.css";
 import "./styles/segment3.css";
 import "./styles/form.css";
 
+/*const utilizeScroll = () => {
+    const htmlElRef = React.createRef();
+    const executeScroll = () => {
+        console.log(htmlElRef.current.offsetTop);
+        window.scrollTo(0, htmlElRef.current.offsetTop);
+    };
+
+    return { executeScroll, htmlElRef };
+};*/
 
 class App extends Component {
     constructor(props) {
         super(props);
-        this.ref = React.createRef();
-    }
-
-    componentDidMount() {
-        console.log(this.ref.current);
+        //this.elScroll = utilizeScroll();
+        this.someRef = React.createRef();
     }
 
     render() {
         return (
             <div>
-                <Page1 />
+                <Page1 curRef={this.someRef}/*func={this.elScroll.executeScroll}*//>
                 <Page2 />
-                <Page3 ref={this.ref}/>
-                <Form />
+                <Page3 />
+                <Form curRef={this.someRef}/>
             </div>
-        )
+        );
     }
 }
 
 export default App;
-

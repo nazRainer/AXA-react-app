@@ -1,9 +1,17 @@
-import React from "react";
+import React, {Component} from "react";
 
-const CheckPriceBtn = () => {
-    return (
-        <div className="check-price-btn">GET STARTED</div>
-    )
+class CheckPriceBtn extends Component {
+    constructor(props) {
+        super(props);
+        this.curRef = props.curRef;
+    }
+
+
+    render() {
+        return (
+            <div onClick={() => window.scrollTo(0, this.curRef.current.offsetTop)} className="check-price-btn">GET STARTED</div>
+        )
+    }
 }
 
 export default CheckPriceBtn;
