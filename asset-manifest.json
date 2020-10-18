@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/AXA-react-app/static/css/main.a220b4ef.chunk.css",
-    "main.js": "/AXA-react-app/static/js/main.dfd26678.chunk.js",
-    "main.js.map": "/AXA-react-app/static/js/main.dfd26678.chunk.js.map",
+    "main.css": "/AXA-react-app/static/css/main.d511d26c.chunk.css",
+    "main.js": "/AXA-react-app/static/js/main.cf6ea16d.chunk.js",
+    "main.js.map": "/AXA-react-app/static/js/main.cf6ea16d.chunk.js.map",
     "runtime-main.js": "/AXA-react-app/static/js/runtime-main.1a09a4c2.js",
     "runtime-main.js.map": "/AXA-react-app/static/js/runtime-main.1a09a4c2.js.map",
-    "static/js/2.0014ef0c.chunk.js": "/AXA-react-app/static/js/2.0014ef0c.chunk.js",
-    "static/js/2.0014ef0c.chunk.js.map": "/AXA-react-app/static/js/2.0014ef0c.chunk.js.map",
+    "static/js/2.78ae8e51.chunk.js": "/AXA-react-app/static/js/2.78ae8e51.chunk.js",
+    "static/js/2.78ae8e51.chunk.js.map": "/AXA-react-app/static/js/2.78ae8e51.chunk.js.map",
     "index.html": "/AXA-react-app/index.html",
-    "precache-manifest.0e3eeff16e1c1203ace6fce29543dac1.js": "/AXA-react-app/precache-manifest.0e3eeff16e1c1203ace6fce29543dac1.js",
+    "precache-manifest.72f5edf75e8dc853b1dc3e574e5c5e92.js": "/AXA-react-app/precache-manifest.72f5edf75e8dc853b1dc3e574e5c5e92.js",
     "service-worker.js": "/AXA-react-app/service-worker.js",
-    "static/css/main.a220b4ef.chunk.css.map": "/AXA-react-app/static/css/main.a220b4ef.chunk.css.map",
-    "static/js/2.0014ef0c.chunk.js.LICENSE.txt": "/AXA-react-app/static/js/2.0014ef0c.chunk.js.LICENSE.txt",
-    "static/media/segment1.css": "/AXA-react-app/static/media/kelly-sikkema-WvVyudMd1Es-unsplash.7ed5f0cb.jpg"
+    "static/css/main.d511d26c.chunk.css.map": "/AXA-react-app/static/css/main.d511d26c.chunk.css.map",
+    "static/js/2.78ae8e51.chunk.js.LICENSE.txt": "/AXA-react-app/static/js/2.78ae8e51.chunk.js.LICENSE.txt",
+    "static/media/segment1.css": "/AXA-react-app/static/media/background1.7ed5f0cb.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.1a09a4c2.js",
-    "static/js/2.0014ef0c.chunk.js",
-    "static/css/main.a220b4ef.chunk.css",
-    "static/js/main.dfd26678.chunk.js"
+    "static/js/2.78ae8e51.chunk.js",
+    "static/css/main.d511d26c.chunk.css",
+    "static/js/main.cf6ea16d.chunk.js"
   ]
 }
