@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import BlobSVGWrapper from "./formcomponents/BlobSVGWrapper";
+import BackButton from "./formcomponents/BackButton";
+import CountrySelect from "./formcomponents/CountrySelect";
+import DateOfBirth from "./formcomponents/DateOfBirth";
+import HeightWeight from "./formcomponents/HeightWeight";
+import { throwStatement } from "@babel/types";
 
 class Form extends Component {
     constructor(props) {
@@ -20,7 +25,7 @@ class Form extends Component {
     incrementPage() {
         this.setState(prevState => ({
             count: prevState.count + 1
-        }));
+        }), () => console.log(this.state));
     }
 
     decrementPage() {
@@ -32,23 +37,136 @@ class Form extends Component {
     }
 
     render() {
-        let curPage;
+        let context, spanText, formType;
         let backButton;
 
         if (this.state.count === 0) {
-            curPage = (
-                <Nationality
-                    updateState={this.updateState}
-                    incrementPage={this.incrementPage}
-                />
-            );
-        } else if (this.state.count === 1 && this.state.malaysian === true) {
-            curPage = (
-                <IndividualOrFamilyPlan
-                    updateState={this.updateState}
-                    incrementPage={this.incrementPage}
-                />
-            );
+            context = "malaysian";
+            formType = "2btn";
+            spanText = "Are you a Malaysian?";
+        } else if (this.state.count === 1) {
+            if (this.state.malaysian === true) {
+                context = "plan-type";
+                formType = "2btn";
+                spanText = "Individual or Family Plan?";
+            } else {
+                formType = "countryselect";
+                spanText = "What's your country of origin?";
+            }
+        } else if (this.state.count === 2) {
+            if (this.state["plan-type"] === "individual") {
+                context = "dob";
+                formType = "dob";
+                spanText = "What's your date of birth?";
+            } else if (this.state['plan-type'] === "family") {
+                
+            }
+        } else if (this.state.count === 3) {
+            if (!this.state["valid-age"]) {
+                context = "ineligible";
+                formType = "plain-text";
+                spanText = "Sorry you are ineligible";
+            } else if (this.state['age-group'] === 'child') {
+                context = "gender";
+                formType = "2btn";
+                spanText = "What's your child's gender?";
+            } else if (this.state['age-group'] !== 'child') {
+                context = "gender";
+                formType = "2btn";
+                spanText = "What's your gender?";
+            }
+        } else if (this.state.count === 4) {
+            if (this.state.malaysian) {
+                if (this.state['age-group'] === 'child') {
+                    console.log('get quote')
+                } else if (this.state['age-group'] === 'senior-adult') {
+                    context = "height-weight";
+                    formType = "height-weight";
+                    spanText = "What's your height and weight";
+                } else if (this.state['age-group'] === 'adult') {
+                    context = "heavy-machinery";
+                    formType = "2btn";
+                    spanText = "Does your work involve heavy machinery?";
+                }
+            } else if (!this.state.malaysian) {
+                if (this.state['age-group'] === 'child') {
+                    console.log('get quote')
+                } else if (this.state['age-group'] === 'adult') {
+                    context = 'expat-career1';
+                    formType = "2btn";
+                    spanText = "Would you describe your job to be in the following category:"
+                } else if (this.state['age-group'] === 'senior-adult') {
+                    context = "height-weight";
+                    formType = "height-weight";
+                    spanText = "What's your height and weight";
+                } 
+            }
+
+        } else if (this.state.count === 5) {
+            if (this.state.malaysian) {
+                if (this.state['age-group'] === 'adult') {
+                    if (this.state['heavy-machinery'] === true) {
+                        context = "ineligible";
+                        formType = "plain-text";
+                        spanText = "Sorry you are ineligible";
+                    } else {
+                        console.log('get quote')
+                    }
+                } else if (this.state['age-group'] === 'senior-adult') {
+                    context = "heavy-machinery";
+                    formType = "2btn";
+                    spanText = "Does your work involve heavy machinery?";
+                }
+            } else if (!this.state.malaysian) {
+                if (this.state['age-group'] === 'adult' && this.state['expat-career1']) {
+                    console.log('get quote')
+                } else if (this.state['age-group'] === 'adult' && !this.state['expat-career1']) {
+                    context = 'expat-career2';
+                    formType = "2btn";
+                    spanText = "Would you describe your job to be in the following category:"
+                } else if (this.state['age-group'] === 'senior-adult') {
+                    context = 'expat-career1';
+                    formType = "2btn";
+                    spanText = "Would you describe your job to be in the following category:"
+                }
+            }
+        } else if (this.state.count === 6) {
+            if (this.state.malaysian) {
+                if (this.state['age-group'] === 'senior-adult') {
+                    if (this.state['heavy-machinery'] === true) {
+                        context = "ineligible";
+                        formType = "plain-text";
+                        spanText = "Sorry you are ineligible";
+                    } else {
+                        console.log('get quote')
+                    }
+                }
+            } else if (!this.state.malaysian) {
+                if (this.state['age-group'] === 'adult' && this.state['expat-career2']) {
+                    console.log('get-quote')
+                } else if (this.state['age-group'] === 'adult' && !this.state['expat-career2']) {
+                    context = "ineligible";
+                    formType = "plain-text";
+                    spanText = "Sorry you are ineligible";
+                } else if (this.state['age-group'] === 'senior-adult' && !this.state['expat-career1']) {
+                    context = 'expat-career2';
+                    formType = "2btn";
+                    spanText = "Would you describe your job to be in the following category:"
+                }  else if (this.state['age-group'] === 'senior-adult' && this.state['expat-career1']) {
+                    console.log('get-qoute')
+                }
+            }
+            
+        } else if (this.state.count === 7) {
+            if (!this.state.malaysian) {
+                if (this.state['age-group'] === 'senior-adult' && this.state['expat-career2']) {
+                    console.log('get-quote')
+                } else if (this.state['age-group'] === 'senior-adult' && !this.state['expat-career2']) {
+                    context = "ineligible";
+                    formType = "plain-text";
+                    spanText = "Sorry you are ineligible";
+                }
+            }
         }
 
         if (this.state.count > 0) {
@@ -58,18 +176,24 @@ class Form extends Component {
         return (
             <div
                 className="form"
-                onClick={() => console.log(this.state)}
                 ref={this.curRef}
             >
-                {backButton}
-                {curPage}
+                
+                <FormComponent
+                    updateState={this.updateState}
+                    incrementPage={this.incrementPage}
+                    context={context}
+                    spanText={spanText}
+                    formType={formType}
+                    backButton={backButton}
+                />
                 <BlobSVGWrapper />
             </div>
         );
     }
 }
 
-class Nationality extends Component {
+class FormComponent extends Component {
     constructor(props) {
         super(props);
         this.updateState = props.updateState;
@@ -77,39 +201,54 @@ class Nationality extends Component {
     }
 
     render() {
+        let subComponent;
+
+        if (this.props.context !== "ineligible") {
+            if (this.props.formType === "2btn") {
+                subComponent = (
+                    <TwoButtons
+                        incrementPage={this.incrementPage}
+                        updateState={this.updateState}
+                        context={this.props.context}
+                    />
+                );
+            } else if (this.props.formType === "countryselect") {
+                subComponent = (
+                    <CountrySelect
+                        updateState={this.updateState}
+                        incrementPage={this.incrementPage}
+                    />
+                );
+            } else if (this.props.formType === "dob") {
+                subComponent = (
+                    <DateOfBirth
+                        updateState={this.updateState}
+                        incrementPage={this.incrementPage}
+                    />
+                );
+            } else if (this.props.formType === "height-weight") {
+                subComponent = (
+                    <HeightWeight
+                        updateState={this.updateState}
+                        incrementPage={this.incrementPage}
+                    />
+                );
+            }
+        }
+
         return (
-            <div className="nationality">
-                <span>Are you a Malaysian?</span>
-                <TwoButtons
-                    incrementPage={this.incrementPage}
-                    updateState={this.updateState}
-                    context="malaysian"
-                />
+            <div className="form-component">
+                <span className='form-header'>{this.props.spanText}</span>
+                <div className='btn-wrapper'>
+                    {subComponent}
+                </div>
+                {this.props.backButton}
             </div>
         );
     }
 }
 
-class IndividualOrFamilyPlan extends Component {
-    constructor(props) {
-        super(props);
-        this.updateState = props.updateState;
-        this.incrementPage = props.incrementPage;
-    }
 
-    render() {
-        return (
-            <div className="plan-type">
-                <span>Individual or Family Plan?</span>
-                <TwoButtons
-                    incrementPage={this.incrementPage}
-                    updateState={this.updateState}
-                    context="plan-type"
-                />
-            </div>
-        );
-    }
-}
 
 class TwoButtons extends Component {
     constructor(props) {
@@ -119,52 +258,61 @@ class TwoButtons extends Component {
     }
 
     render() {
-        if (this.props.context === "malaysian") {
-            return (
-                <div className="btn-group">
-                    <FormButtons
-                        className="left"
-                        text="yes"
-                        incrementPage={this.incrementPage}
-                        updateState={this.updateState}
-                        context={this.props.context}
-                    />
-                    <FormButtons
-                        className="right"
-                        text="no"
-                        incrementPage={this.incrementPage}
-                        updateState={this.updateState}
-                        context={this.props.context}
-                    />
-                </div>
-            );
+        let text1, text2, list;
+        if (this.props.context === "malaysian" || this.props.context === "heavy-machinery" || this.props.context === "expat-career1" || this.props.context === "expat-career2") {
+            text1 = "yes";
+            text2 = "no";
         } else if (this.props.context === "plan-type") {
-            return (
+            text1 = "individual";
+            text2 = "family";
+        } else if (this.props.context === "gender") {
+            text1 = "male";
+            text2 = "female";
+        }
+
+        if (this.props.context === "expat-career1") {
+            list = (<ul className='expat-job-list'>
+                        <li>Management</li>
+                        <li>Executive</li>
+                        <li>Professional</li>
+                        <li>Student or Child</li>
+                        <li>Housewife or Homemaker</li>
+                    </ul>)
+        } else if (this.props.context === 'expat-career2') {
+            list = (<ul className='expat-job-list'>
+                <li>Domestic Maid</li>
+                <li>Office Worker</li>
+            </ul>)
+        }
+
+        return (
+            <div style={{'position': 'relative'}}>
+                {list}
                 <div className="btn-group">
                     <FormButtons
                         className="left"
-                        text="individual"
+                        text={text1}
                         incrementPage={this.incrementPage}
                         updateState={this.updateState}
                         context={this.props.context}
                     />
                     <FormButtons
                         className="right"
-                        text="family"
+                        text={text2}
                         incrementPage={this.incrementPage}
                         updateState={this.updateState}
                         context={this.props.context}
                     />
                 </div>
-            );
-        }
+            </div>
+            
+        );
     }
 }
 
 class FormButtons extends Component {
     constructor(props) {
         super(props);
-        this.value = props.text;
         this.updateState = props.updateState;
         this.incrementPage = props.incrementPage;
     }
@@ -172,14 +320,19 @@ class FormButtons extends Component {
     render() {
         let obj;
 
-        if (this.props.context === "malaysian") {
+        if (this.props.context === "malaysian" || this.props.context === 'heavy-machinery' || this.props.context === "expat-career1" || this.props.context === "expat-career2") {
             obj = {
-                [`${this.props.context}`]: this.value === "yes" ? true : false
+                [`${this.props.context}`]:
+                    this.props.text === "yes" ? true : false
             };
         } else if (this.props.context === "plan-type") {
             obj = {
                 [`${this.props.context}`]:
-                    this.value === "family" ? "family" : "individual"
+                    this.props.text === "family" ? "family" : "individual"
+            };
+        } else if (this.props.context === "gender") {
+            obj = {
+                [`${this.props.context}`]: this.props.text === "male" ? 1 : 2
             };
         }
 
@@ -192,25 +345,9 @@ class FormButtons extends Component {
                 }}
             >
                 <span>
-                    {this.value.charAt(0).toUpperCase() + this.value.slice(1)}
+                    {this.props.text.charAt(0).toUpperCase() +
+                        this.props.text.slice(1)}
                 </span>
-            </div>
-        );
-    }
-}
-
-class BackButton extends Component {
-    constructor(props) {
-        super(props);
-        this.decrementPage = props.decrementPage;
-    }
-
-    render() {
-        return (
-            <div onClick={() => this.decrementPage()} className="back-btn">
-                <svg viewBox="0 0 1125 1125" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M367.438 178.881C382.764 163.019 408.272 163.019 424.135 178.881C439.461 194.207 439.461 219.715 424.135 235.006L136.65 522.49H1085.31C1107.42 522.526 1125 540.103 1125 562.217C1125 584.331 1107.42 602.48 1085.31 602.48H136.65L424.135 889.428C439.461 905.29 439.461 930.834 424.135 946.124C408.272 961.987 382.729 961.987 367.438 946.124L11.8966 590.583C-3.96555 575.257 -3.96555 549.749 11.8966 534.458L367.438 178.881Z" fill="#F8F8F8"/>
-                </svg>
             </div>
         );
     }
