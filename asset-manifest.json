@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/AXA-react-app/static/css/main.d511d26c.chunk.css",
-    "main.js": "/AXA-react-app/static/js/main.cf6ea16d.chunk.js",
-    "main.js.map": "/AXA-react-app/static/js/main.cf6ea16d.chunk.js.map",
+    "main.css": "/AXA-react-app/static/css/main.680b7625.chunk.css",
+    "main.js": "/AXA-react-app/static/js/main.585d2286.chunk.js",
+    "main.js.map": "/AXA-react-app/static/js/main.585d2286.chunk.js.map",
     "runtime-main.js": "/AXA-react-app/static/js/runtime-main.1a09a4c2.js",
     "runtime-main.js.map": "/AXA-react-app/static/js/runtime-main.1a09a4c2.js.map",
-    "static/js/2.78ae8e51.chunk.js": "/AXA-react-app/static/js/2.78ae8e51.chunk.js",
-    "static/js/2.78ae8e51.chunk.js.map": "/AXA-react-app/static/js/2.78ae8e51.chunk.js.map",
+    "static/js/2.226522bc.chunk.js": "/AXA-react-app/static/js/2.226522bc.chunk.js",
+    "static/js/2.226522bc.chunk.js.map": "/AXA-react-app/static/js/2.226522bc.chunk.js.map",
     "index.html": "/AXA-react-app/index.html",
-    "precache-manifest.72f5edf75e8dc853b1dc3e574e5c5e92.js": "/AXA-react-app/precache-manifest.72f5edf75e8dc853b1dc3e574e5c5e92.js",
+    "precache-manifest.b9c6d0430b9bfec04bdbc6beb3524c19.js": "/AXA-react-app/precache-manifest.b9c6d0430b9bfec04bdbc6beb3524c19.js",
     "service-worker.js": "/AXA-react-app/service-worker.js",
-    "static/css/main.d511d26c.chunk.css.map": "/AXA-react-app/static/css/main.d511d26c.chunk.css.map",
-    "static/js/2.78ae8e51.chunk.js.LICENSE.txt": "/AXA-react-app/static/js/2.78ae8e51.chunk.js.LICENSE.txt",
+    "static/css/main.680b7625.chunk.css.map": "/AXA-react-app/static/css/main.680b7625.chunk.css.map",
+    "static/js/2.226522bc.chunk.js.LICENSE.txt": "/AXA-react-app/static/js/2.226522bc.chunk.js.LICENSE.txt",
     "static/media/segment1.css": "/AXA-react-app/static/media/background1.7ed5f0cb.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.1a09a4c2.js",
-    "static/js/2.78ae8e51.chunk.js",
-    "static/css/main.d511d26c.chunk.css",
-    "static/js/main.cf6ea16d.chunk.js"
+    "static/js/2.226522bc.chunk.js",
+    "static/css/main.680b7625.chunk.css",
+    "static/js/main.585d2286.chunk.js"
   ]
 }
