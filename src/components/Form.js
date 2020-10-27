@@ -4,12 +4,13 @@ import BackButton from "./formcomponents/BackButton";
 import CountrySelect from "./formcomponents/CountrySelect";
 import DateOfBirth from "./formcomponents/DateOfBirth";
 import HeightWeight from "./formcomponents/HeightWeight";
-import { throwStatement } from "@babel/types";
+import DateOfBirthFamily from './formcomponents/DateOfBirthFamily';
 
 class Form extends Component {
     constructor(props) {
         super(props);
         this.curRef = props.curRef;
+        this.backBtnRef = React.createRef();
         this.updateState = this.updateState.bind(this);
         this.incrementPage = this.incrementPage.bind(this);
         this.decrementPage = this.decrementPage.bind(this);
@@ -59,7 +60,9 @@ class Form extends Component {
                 formType = "dob";
                 spanText = "What's your date of birth?";
             } else if (this.state['plan-type'] === "family") {
-                
+                context = "dob-family";
+                formType = 'dob-family';
+                spanText = 'Enter the birth dates of your family members and yourself and their relationship to you'
             }
         } else if (this.state.count === 3) {
             if (!this.state["valid-age"]) {
@@ -101,7 +104,6 @@ class Form extends Component {
                     spanText = "What's your height and weight";
                 } 
             }
-
         } else if (this.state.count === 5) {
             if (this.state.malaysian) {
                 if (this.state['age-group'] === 'adult') {
@@ -156,7 +158,6 @@ class Form extends Component {
                     console.log('get-qoute')
                 }
             }
-            
         } else if (this.state.count === 7) {
             if (!this.state.malaysian) {
                 if (this.state['age-group'] === 'senior-adult' && this.state['expat-career2']) {
@@ -170,9 +171,9 @@ class Form extends Component {
         }
 
         if (this.state.count > 0) {
-            backButton = <BackButton decrementPage={this.decrementPage} />;
+            backButton = <BackButton decrementPage={this.decrementPage} backBtnRef={this.backBtnRef} />;
         }
-
+        
         return (
             <div
                 className="form"
@@ -186,6 +187,7 @@ class Form extends Component {
                     spanText={spanText}
                     formType={formType}
                     backButton={backButton}
+                    backBtnRef={this.backBtnRef}
                 />
                 <BlobSVGWrapper />
             </div>
@@ -233,16 +235,33 @@ class FormComponent extends Component {
                         incrementPage={this.incrementPage}
                     />
                 );
+            } else if (this.props.formType === 'dob-family') {
+                subComponent = (
+                    <DateOfBirthFamily
+                        updateState={this.updateState}
+                        incrementPage={this.incrementPage}
+                    />
+                );
             }
         }
+        
+        let offsetWidth = '';
 
+        if (this.props.backBtnRef.current && this.props.backButton) {
+            offsetWidth = `${parseInt(this.props.backBtnRef.current.getBoundingClientRect().width) / 2}px`
+        }
+        
         return (
             <div className="form-component">
-                <span className='form-header'>{this.props.spanText}</span>
+                <div style={{'position': 'relative', "display": "flex", 'right' : offsetWidth}}>
+                    {this.props.backButton}
+                    <div  className='form-header'>{this.props.spanText}</div>
+                </div>
+                
                 <div className='btn-wrapper'>
                     {subComponent}
                 </div>
-                {this.props.backButton}
+                
             </div>
         );
     }
