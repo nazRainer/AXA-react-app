@@ -350,7 +350,7 @@ const svgandspans = [
             stroke-linejoin="round"
         />
     </svg>`,
-        text: "5% Discount for Annual Payment"
+        text: "Enjoy Rebates by Singing Up Through Us"
     },
 
     {

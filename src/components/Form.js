@@ -5,6 +5,7 @@ import CountrySelect from "./formcomponents/CountrySelect";
 import DateOfBirth from "./formcomponents/DateOfBirth";
 import HeightWeight from "./formcomponents/HeightWeight";
 import DateOfBirthFamily from './formcomponents/DateOfBirthFamily';
+import Quotations from './formcomponents/Quotations';
 
 class Form extends Component {
     constructor(props) {
@@ -37,9 +38,24 @@ class Form extends Component {
         }
     }
 
+    componentDidUpdate() {
+        let offsetWidth = '';
+
+        if (this.state.count === 0 && this.state.backButton) {
+            this.setState({backButton : false});
+        } else if (this.state.count > 0 && !this.state.backButton) {
+            this.setState({backButton : true});
+        }
+
+        if (this.backBtnRef.current && this.state.backButton && !this.state.offsetWidth) {
+            offsetWidth = `-${this.backBtnRef.current.getBoundingClientRect().width}px`
+            this.setState({'offsetWidth': offsetWidth}, () => console.log(this.state));
+        }
+    }
+
     render() {
         let context, spanText, formType;
-        let backButton;
+        let backButton = this.state.backButton ? <BackButton decrementPage={this.decrementPage} backBtnRef={this.backBtnRef} /> : null;
 
         if (this.state.count === 0) {
             context = "malaysian";
@@ -65,44 +81,88 @@ class Form extends Component {
                 spanText = 'Enter the birth dates of your family members and yourself and their relationship to you'
             }
         } else if (this.state.count === 3) {
-            if (!this.state["valid-age"]) {
-                context = "ineligible";
-                formType = "plain-text";
-                spanText = "Sorry you are ineligible";
-            } else if (this.state['age-group'] === 'child') {
-                context = "gender";
-                formType = "2btn";
-                spanText = "What's your child's gender?";
-            } else if (this.state['age-group'] !== 'child') {
-                context = "gender";
-                formType = "2btn";
-                spanText = "What's your gender?";
-            }
-        } else if (this.state.count === 4) {
-            if (this.state.malaysian) {
-                if (this.state['age-group'] === 'child') {
-                    console.log('get quote')
-                } else if (this.state['age-group'] === 'senior-adult') {
-                    context = "height-weight";
-                    formType = "height-weight";
-                    spanText = "What's your height and weight";
-                } else if (this.state['age-group'] === 'adult') {
-                    context = "heavy-machinery";
+            if (this.state['plan-type'] === 'individual') {
+                if (!this.state["valid-age"]) {
+                    context = "ineligible";
+                    formType = "plain-text";
+                    spanText = "Sorry you are ineligible";
+                } else if (this.state['age-group'] === 'child') {
+                    context = "gender";
                     formType = "2btn";
-                    spanText = "Does your work involve heavy machinery?";
+                    spanText = "What's your child's gender?";
+                } else if (this.state['age-group'] !== 'child') {
+                    context = "gender";
+                    formType = "2btn";
+                    spanText = "What's your gender?";
                 }
-            } else if (!this.state.malaysian) {
-                if (this.state['age-group'] === 'child') {
-                    console.log('get quote')
-                } else if (this.state['age-group'] === 'adult') {
-                    context = 'expat-career1';
-                    formType = "2btn";
-                    spanText = "Would you describe your job to be in the following category:"
-                } else if (this.state['age-group'] === 'senior-adult') {
-                    context = "height-weight";
-                    formType = "height-weight";
-                    spanText = "What's your height and weight";
-                } 
+            } else if (this.state['plan-type'] === 'family') {
+                context = 'heavy-machinery-family';
+                formType = '2btn';
+                spanText = 'Do any of your family members and yourself have an occupation involving heavy manual work with heavy machinery?'
+            }   
+        } else if (this.state.count === 4) {
+            if (this.state['plan-type'] === 'individual') {
+                if (this.state.malaysian) {
+                    if (this.state['age-group'] === 'child') {
+                        return (
+                            <div
+                                className="form"
+                                ref={this.curRef}
+                            >
+                                <Quotations
+                                    date-of-birth={this.state['date-of-birth']}
+                                    gender={this.state.gender}
+                                    plan-type={this.state['plan-type']}
+                                    backButton={backButton}
+                                    backBtnRef={this.backBtnRef}
+                                />
+                                <BlobSVGWrapper />
+                            </div>
+                        )
+                    } else if (this.state['age-group'] === 'senior-adult') {
+                        context = "height-weight";
+                        formType = "height-weight";
+                        spanText = "What's your height and weight";
+                    } else if (this.state['age-group'] === 'adult') {
+                        context = "heavy-machinery";
+                        formType = "2btn";
+                        spanText = "Does your work involve heavy machinery?";
+                    }
+                } else if (!this.state.malaysian) {
+                    if (this.state['age-group'] === 'child') {
+                        return (
+                            <div
+                                className="form"
+                                ref={this.curRef}
+                            >
+                                <Quotations
+                                    date-of-birth={this.state['date-of-birth']}
+                                    gender={this.state.gender}
+                                    plan-type={this.state['plan-type']}
+                                    backButton={backButton}
+                                    backBtnRef={this.backBtnRef}
+                                />
+                                <BlobSVGWrapper />
+                            </div>
+                        )
+                    } else if (this.state['age-group'] === 'adult') {
+                        context = 'expat-career1';
+                        formType = "2btn";
+                        spanText = "Would you describe your job to be in the following category:"
+                    } else if (this.state['age-group'] === 'senior-adult') {
+                        context = "height-weight";
+                        formType = "height-weight";
+                        spanText = "What's your height and weight";
+                    } 
+                }
+            } else if (this.state['plan-type'] === 'family') {
+                if (this.state['heavy-machinery-family'] === true) {
+                    context = "ineligible";
+                    formType = "plain-text";
+                    spanText = "Sorry you and your family are ineligible however you may still apply for individual plans";
+                } else {
+                    this.generateQuote();
+                }
             }
         } else if (this.state.count === 5) {
             if (this.state.malaysian) {
@@ -112,7 +172,21 @@ class Form extends Component {
                         formType = "plain-text";
                         spanText = "Sorry you are ineligible";
                     } else {
-                        console.log('get quote')
+                        return (
+                            <div
+                                className="form"
+                                ref={this.curRef}
+                            >
+                                <Quotations
+                                    date-of-birth={this.state['date-of-birth']}
+                                    gender={this.state.gender}
+                                    plan-type={this.state['plan-type']}
+                                    backButton={backButton}
+                                    backBtnRef={this.backBtnRef}
+                                />
+                                <BlobSVGWrapper />
+                            </div>
+                        )
                     }
                 } else if (this.state['age-group'] === 'senior-adult') {
                     context = "heavy-machinery";
@@ -121,7 +195,21 @@ class Form extends Component {
                 }
             } else if (!this.state.malaysian) {
                 if (this.state['age-group'] === 'adult' && this.state['expat-career1']) {
-                    console.log('get quote')
+                    return (
+                        <div
+                            className="form"
+                            ref={this.curRef}
+                        >
+                            <Quotations
+                                date-of-birth={this.state['date-of-birth']}
+                                gender={this.state.gender}
+                                plan-type={this.state['plan-type']}
+                                backButton={backButton}
+                                backBtnRef={this.backBtnRef}
+                            />
+                            <BlobSVGWrapper />
+                        </div>
+                    )
                 } else if (this.state['age-group'] === 'adult' && !this.state['expat-career1']) {
                     context = 'expat-career2';
                     formType = "2btn";
@@ -140,12 +228,40 @@ class Form extends Component {
                         formType = "plain-text";
                         spanText = "Sorry you are ineligible";
                     } else {
-                        console.log('get quote')
+                        return (
+                            <div
+                                className="form"
+                                ref={this.curRef}
+                            >
+                                <Quotations
+                                    date-of-birth={this.state['date-of-birth']}
+                                    gender={this.state.gender}
+                                    plan-type={this.state['plan-type']}
+                                    backButton={backButton}
+                                    backBtnRef={this.backBtnRef}
+                                />
+                                <BlobSVGWrapper />
+                            </div>
+                        )
                     }
                 }
             } else if (!this.state.malaysian) {
                 if (this.state['age-group'] === 'adult' && this.state['expat-career2']) {
-                    console.log('get-quote')
+                    return (
+                        <div
+                            className="form"
+                            ref={this.curRef}
+                        >
+                            <Quotations
+                                date-of-birth={this.state['date-of-birth']}
+                                gender={this.state.gender}
+                                plan-type={this.state['plan-type']}
+                                backButton={backButton}
+                                backBtnRef={this.backBtnRef}
+                            />
+                            <BlobSVGWrapper />
+                        </div>
+                    )
                 } else if (this.state['age-group'] === 'adult' && !this.state['expat-career2']) {
                     context = "ineligible";
                     formType = "plain-text";
@@ -155,13 +271,41 @@ class Form extends Component {
                     formType = "2btn";
                     spanText = "Would you describe your job to be in the following category:"
                 }  else if (this.state['age-group'] === 'senior-adult' && this.state['expat-career1']) {
-                    console.log('get-qoute')
+                    return (
+                        <div
+                            className="form"
+                            ref={this.curRef}
+                        >
+                            <Quotations
+                                date-of-birth={this.state['date-of-birth']}
+                                gender={this.state.gender}
+                                plan-type={this.state['plan-type']}
+                                backButton={backButton}
+                                backBtnRef={this.backBtnRef}
+                            />
+                            <BlobSVGWrapper />
+                        </div>
+                    )
                 }
             }
         } else if (this.state.count === 7) {
             if (!this.state.malaysian) {
                 if (this.state['age-group'] === 'senior-adult' && this.state['expat-career2']) {
-                    console.log('get-quote')
+                    return (
+                        <div
+                            className="form"
+                            ref={this.curRef}
+                        >
+                            <Quotations
+                                date-of-birth={this.state['date-of-birth']}
+                                gender={this.state.gender}
+                                plan-type={this.state['plan-type']}
+                                backButton={backButton}
+                                backBtnRef={this.backBtnRef}
+                            />
+                            <BlobSVGWrapper />
+                        </div>
+                    )
                 } else if (this.state['age-group'] === 'senior-adult' && !this.state['expat-career2']) {
                     context = "ineligible";
                     formType = "plain-text";
@@ -170,16 +314,15 @@ class Form extends Component {
             }
         }
 
-        if (this.state.count > 0) {
-            backButton = <BackButton decrementPage={this.decrementPage} backBtnRef={this.backBtnRef} />;
-        }
+        /*if (this.state.count === 0) {
+            backButton = null;
+        }*/
         
         return (
             <div
                 className="form"
                 ref={this.curRef}
             >
-                
                 <FormComponent
                     updateState={this.updateState}
                     incrementPage={this.incrementPage}
@@ -188,6 +331,7 @@ class Form extends Component {
                     formType={formType}
                     backButton={backButton}
                     backBtnRef={this.backBtnRef}
+                    offsetWidth={this.state.offsetWidth}
                 />
                 <BlobSVGWrapper />
             </div>
@@ -200,8 +344,10 @@ class FormComponent extends Component {
         super(props);
         this.updateState = props.updateState;
         this.incrementPage = props.incrementPage;
+        this.formHeaderRef = React.createRef();
     }
 
+    
     render() {
         let subComponent;
 
@@ -245,29 +391,33 @@ class FormComponent extends Component {
             }
         }
         
-        let offsetWidth = '';
-
-        if (this.props.backBtnRef.current && this.props.backButton) {
-            offsetWidth = `${parseInt(this.props.backBtnRef.current.getBoundingClientRect().width) / 2}px`
-        }
-        
         return (
             <div className="form-component">
-                <div style={{'position': 'relative', "display": "flex", 'right' : offsetWidth}}>
-                    {this.props.backButton}
-                    <div  className='form-header'>{this.props.spanText}</div>
+                <div style={{ position: "relative", display: "inline-block", left: '50%', transform: 'translateX(-50%)' }}>
+                    <div
+                        style={{
+                            position: "fixed",
+                            display: "inline-block",
+                            left: this.props.offsetWidth
+                        }}
+                    >
+                        {this.props.backButton}
+                    </div>
+                    <div
+                        className="form-header"
+                        ref={
+                            this.formHeaderRef
+                        } /*style={{'right' : offsetWidth}}*/
+                    >
+                        {this.props.spanText}
+                    </div>
                 </div>
-                
-                <div className='btn-wrapper'>
-                    {subComponent}
-                </div>
-                
+
+                <div className="btn-wrapper">{subComponent}</div>
             </div>
         );
     }
 }
-
-
 
 class TwoButtons extends Component {
     constructor(props) {
@@ -278,7 +428,7 @@ class TwoButtons extends Component {
 
     render() {
         let text1, text2, list;
-        if (this.props.context === "malaysian" || this.props.context === "heavy-machinery" || this.props.context === "expat-career1" || this.props.context === "expat-career2") {
+        if (this.props.context === "malaysian" || this.props.context === "heavy-machinery" || this.props.context === "heavy-machinery-family" || this.props.context === "expat-career1" || this.props.context === "expat-career2") {
             text1 = "yes";
             text2 = "no";
         } else if (this.props.context === "plan-type") {
@@ -339,7 +489,7 @@ class FormButtons extends Component {
     render() {
         let obj;
 
-        if (this.props.context === "malaysian" || this.props.context === 'heavy-machinery' || this.props.context === "expat-career1" || this.props.context === "expat-career2") {
+        if (this.props.context === "malaysian" || this.props.context === 'heavy-machinery' || this.props.context === 'heavy-machinery-family' || this.props.context === "expat-career1" || this.props.context === "expat-career2") {
             obj = {
                 [`${this.props.context}`]:
                     this.props.text === "yes" ? true : false

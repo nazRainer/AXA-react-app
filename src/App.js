@@ -8,6 +8,7 @@ import "./styles/segment1.css";
 import "./styles/segment2.css";
 import "./styles/segment3.css";
 import "./styles/form.css";
+import "./styles/quotationcomponent.css";
 
 /*const utilizeScroll = () => {
     const htmlElRef = React.createRef();

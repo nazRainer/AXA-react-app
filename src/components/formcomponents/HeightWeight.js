@@ -12,16 +12,16 @@ class HeightWeight extends Component {
         }
     }
 
+    proceed() {
+        if (this.checkValid(this.state.weight, this.state.height)) {
+            this.incrementPage();
+        }
+    }
+
     handleKeyPress(event, str) {
         event.persist();
-
+        
         this.setState((prevState) => ({[`${str}`]: prevState[`${str}`] + event.key }));
-
-        clearTimeout(this.typingTimeout);
-
-        if (this.checkValid(this.state.weight, this.state.height)) {
-            this.typingTimeout = setTimeout(this.incrementPage, 1000)
-        }
     }
 
     checkValid(weight, height) {
@@ -34,24 +34,27 @@ class HeightWeight extends Component {
 
         return (
             <div className="height-weight">
-                <input
-                    type="text"
-                    name="height"
-                    placeholder="Height (cm)"
-                    autoComplete="off"
-                    onKeyDown={(e) =>
-                        Array.from("0123456789").includes(e.key) ? this.handleKeyPress(e, 'height'): e.preventDefault()
-                    }
-                ></input>
-                <input
-                    type="text"
-                    name="weight"
-                    placeholder="Weight (kg)"
-                    autoComplete="off"
-                    onKeyDown={e =>
-                        Array.from("0123456789").includes(e.key) ? this.handleKeyPress(e, 'weight'): e.preventDefault()
-                    }
-                ></input>
+                <div style={{'display': 'flex', 'flexDirection': 'row'}}>
+                    <input
+                        type="text"
+                        name="height"
+                        placeholder="Height (cm)"
+                        autoComplete="off"
+                        onKeyDown={(e) =>
+                            Array.from("0123456789").includes(e.key) ? this.handleKeyPress(e, 'height'): e.preventDefault()
+                        }
+                    ></input>
+                    <input
+                        type="text"
+                        name="weight"
+                        placeholder="Weight (kg)"
+                        autoComplete="off"
+                        onKeyDown={e =>
+                            (Array.from("0123456789").includes(e.key) || e.keyCode === 8 || e.keyCode === 46) ? this.handleKeyPress(e, 'weight'): e.preventDefault()
+                        }
+                    ></input>
+                </div>
+                <div className={'proceed-btn'} style={{'left': '50%', 'transform': 'translateX(-50%)'}} onClick={() => this.proceed()}><span>Proceed</span></div>
             </div>
         );
     }

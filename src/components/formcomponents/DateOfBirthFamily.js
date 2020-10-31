@@ -11,11 +11,18 @@ class DateOfBirthFamily extends Component {
             memberList: [],
             familyArray: ["Wife", "Husband" , "Son", "Daughter"],
             childArray: ["Son", "Daughter"],
-            result: {}
+            result: {},
+            class: 'warning-bar disabled'
         }
         this.addMember = this.addMember.bind(this);
+        this.removeMember = this.removeMember.bind(this);
         this.incrementCompleteCount = this.incrementCompleteCount.bind(this);
         this.proceed = this.proceed.bind(this);
+        this.updateRootComponent = this.updateRootComponent.bind(this);
+    }
+
+    updateRootComponent(obj) {
+        this.setState(obj);
     }
 
     addMember() {
@@ -26,17 +33,56 @@ class DateOfBirthFamily extends Component {
             incrementPage={this.incrementPage}
             familyArray={this.state.childArray}
             incrementCompleteCount={this.incrementCompleteCount}
-        />)], 'familyArray': prevState.familyArray, memberCount: prevState.memberCount + 1}))
+            updateRootComponent={this.updateRootComponent}
+        />)], 'familyArray': prevState.familyArray, memberCount: prevState.memberCount + 1
+        }))
+    }
+
+    removeMember() {
+        if (this.state.memberCount > 2) {
+            if (Object.keys(this.state.result).length === this.state.memberCount) {
+                let obj = Object.assign({}, this.state.result);
+                delete obj[`member-${Object.keys(obj).length - 1}`];
+                this.setState((prevState) => ({
+                    'memberList': [...prevState.memberList.slice(0, prevState.memberList.length - 1)], 
+                    'familyArray': prevState.familyArray,
+                    'result': obj,
+                    memberCount: prevState.memberCount - 1,
+                    completeCount: prevState.completeCount - 1,
+                }))
+            } else {
+                this.setState((prevState) => ({
+                    'memberList': [...prevState.memberList.slice(0, prevState.memberList.length - 1)], 
+                    'familyArray': prevState.familyArray,
+                    memberCount: prevState.memberCount - 1,
+                }))
+            }
+        }
     }
 
     incrementCompleteCount() {
         this.setState((prevState) => ({completeCount: prevState.completeCount + 1}))
     }
 
+    checkValidChild() {
+        for (let obj in this.state.result) {
+            if (this.state.result[obj]['invalid-child']) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     proceed() {
-        console.log(this.state.memberCount, this.state.completeCount)
-        if (this.state.memberCount === this.state.completeCount) {
+        if (this.state.memberCount === this.state.completeCount && this.checkValidChild()) {
             this.incrementPage();
+            this.updateState({'family-members': this.state.result})
+        }
+    }
+
+    toggleClassBar() {
+        if (this.state.class.includes('disabled') && !this.checkValidChild()) {
+            this.setState((prevState) => ({class: prevState.class.slice(prevState.class.indexOf(' ')) + 'enable'}))
         }
     }
 
@@ -46,23 +92,33 @@ class DateOfBirthFamily extends Component {
                 <DateOfBirthFamilyRow
                     updateState={this.updateState}
                     incrementPage={this.incrementPage}
-                    familyArray={['Yourself']}
+                    familyArray={["Yourself"]}
                     incrementCompleteCount={this.incrementCompleteCount}
                     key={0}
                     idNum={0}
+                    updateRootComponent={this.updateRootComponent}
                 />
                 <DateOfBirthFamilyRow
                     updateState={this.updateState}
                     incrementPage={this.incrementPage}
-                    familyArray={this.state.familyArray}
+                    familyArray={["Wife", "Husband" , "Son", "Daughter"]}
                     incrementCompleteCount={this.incrementCompleteCount}
                     key={1}
                     idNum={1}
+                    updateRootComponent={this.updateRootComponent}
                 />
                 {this.state.memberList}
+                <div className={this.state.class}>Your child needs to be younger than 16 years old</div>
                 <div style={{'position': 'relative', 'display': 'flex', 'justifyContent': 'space-between'}}>
-                    <div onClick={this.addMember}>Add Member</div>
-                    <div onClick={this.proceed}>Proceed</div>
+                    <div className={'proceed-btn'} onClick={this.addMember}>Add Member</div>
+                    <div className={'proceed-btn'} onClick={this.removeMember}>Remove Member</div>
+                    <div className={'proceed-btn'} 
+                        onClick={() => {
+                            console.log(this.state);
+                            this.proceed();  
+                            this.toggleClassBar();                      
+                        }
+                    }>Proceed</div>
                 </div>
             </div>
         )
@@ -77,44 +133,89 @@ class DateOfBirthFamilyRow extends Component {
         this.familyArray = props.familyArray;
         this.incrementCompleteCount = props.incrementCompleteCount;
         this.updateParentState = this.updateParentState.bind(this);
+        this.updateRootComponent = props.updateRootComponent
         this.state = {
             [`member-${this.props.idNum}`]: {
                 'age': undefined,
                 'gender': undefined
-            }
+            },
+            'classToggle': 'disabled',
+            'validHeightWeight': true,
         }
     }
 
     updateParentState(obj) {
-        this.setState(obj, () => console.log(this.state));
+        this.setState(obj, () => {
+            this.requestHeightWeight();
+            this.checkFormComplete()
+        });
+    }
+
+    requestHeightWeight() {
+        if (this.state[`member-${this.props.idNum}`].age && this.state[`member-${this.props.idNum}`].age >= 40) {
+            this.setState({'classToggle': 'enable', 'validHeightWeight': false});
+        } else if (this.state[`member-${this.props.idNum}`].age && this.state[`member-${this.props.idNum}`].age < 40) {
+            this.setState({'classToggle': 'disabled', 'validHeightWeight': true});
+        } 
     }
 
     checkFormComplete() {
-        if (this.state[`member-${this.props.idNum}`].age && this.state[`member-${this.props.idNum}`].gender) {
-            return true;
+        if ((this.state[`member-${this.props.idNum}`].relation === 'son' && this.state[`member-${this.props.idNum}`].age > 15) || (this.state[`member-${this.props.idNum}`].relation === 'daughter' && this.state[`member-${this.props.idNum}`].age > 15) ) {
+            this.updateRootComponent((prevState) => ({'result': {...prevState.result, [`member-${this.props.idNum}`]: {'invalid-child': true}}}))
+        } else if (this.state[`member-${this.props.idNum}`].age && this.state[`member-${this.props.idNum}`].gender) {
+            this.updateRootComponent((prevState) => ({'result': {...prevState.result, [`member-${this.props.idNum}`]: this.state[`member-${this.props.idNum}`]}}))
         }
+    }
 
-        return false;
+    handleKeyPress(event, str) {
+        event.persist();
+        
+        this.setState((prevState) => ({[`${str}`]: prevState[`${str}`] + event.key }));
     }
 
     render() {
         return (
-            <div className='dob-family-row' style={{'position': 'relative', 'display': 'flex', 'justifyContent': 'space-between'}}>
-                <div style={{'float': 'left'}}>   
-                    <DateOfBirthFamilyMember
-                        updateState={this.updateState}
-                        incrementCompleteCount={this.incrementCompleteCount}
-                        updateParentState={this.updateParentState}
-                        key={this.props.key}
-                        idNum={this.props.idNum}
-                    />
+            <div className='dob-family-row' style={{'position': 'relative', 'display': 'flex', 'flex-direction': 'column'}}>
+                <div style={{'display': 'flex', 'justifyContent': 'space-between'}}>
+                    <div style={{'float': 'left'}}>   
+                        <DateOfBirthFamilyMember
+                            updateState={this.updateState}
+                            incrementCompleteCount={this.incrementCompleteCount}
+                            updateParentState={this.updateParentState}
+                            key={this.props.key}
+                            idNum={this.props.idNum}
+                        />
+                    </div>
+                    <div style={{'float': 'right'}}>
+                        <FamilyMember 
+                            familyArray={this.familyArray}
+                            updateParentState={this.updateParentState}
+                            key={this.props.key}
+                            idNum={this.props.idNum}
+                        />
+                    </div>
                 </div>
-                <FamilyMember 
-                    familyArray={this.familyArray}
-                    updateParentState={this.updateParentState}
-                    key={this.props.key}
-                    idNum={this.props.idNum}
-                />
+
+                <div className={this.state.classToggle + ' toggled-height-weight'} style={{'position': 'relative'}}>
+                    <input
+                        type="text"
+                        name="height"
+                        placeholder="Height (cm)"
+                        autoComplete="off"
+                        onKeyDown={(e) =>
+                            Array.from("0123456789").includes(e.key) ? this.handleKeyPress(e, 'height'): e.preventDefault()
+                        }
+                    ></input>
+                    <input
+                        type="text"
+                        name="weight"
+                        placeholder="Weight (kg)"
+                        autoComplete="off"
+                        onKeyDown={e =>
+                            Array.from("0123456789").includes(e.key) ? this.handleKeyPress(e, 'weight'): e.preventDefault()
+                        }
+                    ></input>
+                </div>
             </div>
         )
     }
@@ -126,6 +227,12 @@ class DateOfBirthFamilyMember extends Component {
         this.updateState = props.updateState;
         this.incrementCompleteCount = props.incrementCompleteCount;
         this.updateParentState = props.updateParentState;
+        this.state = {
+            selectedDay: undefined,
+            selectedMonth: undefined,
+            selectedYear: undefined,
+            firstInput: true,
+        }
     }
 
     checkComplete(selectedDay, selectedMonth, selectedYear) {
@@ -134,10 +241,14 @@ class DateOfBirthFamilyMember extends Component {
                 this.updateParentState((prevState) => (
                     {[`member-${this.props.idNum}`]: {
                         'age': this.calculateAge(selectedDay, selectedMonth, selectedYear), 
-                        'gender': prevState[`member-${this.props.idNum}`].gender
+                        'gender': prevState[`member-${this.props.idNum}`].gender,
+                        'relation': prevState[`member-${this.props.idNum}`].relation,
                     }}
                 ))
-                this.incrementCompleteCount();
+                if (this.state.firstInput) {
+                    this.setState({firstInput: false})
+                    this.incrementCompleteCount();
+                }
             } else {
                 this.updateState({
                     'valid-age': false
@@ -201,29 +312,31 @@ class DateOfBirthFamilyMember extends Component {
             years.push(<option key={i.toString()} value={i.toString()} >{i.toString()}</option>)
         }
 
-        let selectedDay, selectedMonth, selectedYear;
-
         return (
             <div className="dob">
                 <select name="day" onChange={(e) => {
-                    selectedDay = e.target.value;
-                    this.checkComplete(selectedDay, selectedMonth, selectedYear);
+                    this.setState({selectedDay: e.target.value},
+                        () => this.checkComplete(this.state.selectedDay, this.state.selectedMonth, this.state.selectedYear)
+                    );
+                    this.checkComplete(this.state.selectedDay, this.state.selectedMonth, this.state.selectedYear);
                 }}>
                     <option value="" selected disabled>Day</option>
                     {days}
                 </select>
 
                 <select name="month" onChange={(e) => {
-                    selectedMonth = e.target.value;
-                    this.checkComplete(selectedDay, selectedMonth, selectedYear);
+                    this.setState({selectedMonth: e.target.value},
+                        () => this.checkComplete(this.state.selectedDay, this.state.selectedMonth, this.state.selectedYear)
+                    );
                 }}>
                     <option value="" selected disabled>Month</option>
                     {months.map((month) => <option key={month.str.toLowerCase()} value={parseInt(month.num)}>{month.str}</option>)}
                 </select>
 
                 <select name="year" onChange={(e) => {
-                    selectedYear = e.target.value;
-                    this.checkComplete(selectedDay, selectedMonth, selectedYear);
+                    this.setState({selectedYear: e.target.value},
+                        () => this.checkComplete(this.state.selectedDay, this.state.selectedMonth, this.state.selectedYear)
+                    );
                 }}>
                     <option value="" selected disabled>Year</option>
                     {years}
@@ -247,16 +360,18 @@ class FamilyMember extends Component {
     identifyGender(string) {
         if (string === 'wife' || string === 'daughter') {
             return 2;
-        } else if (string === 'husband' || string === 'son') {
+        } else if (string === 'husband' || string === 'son' || string === 'yourself') {
             return 1;
         }
     }
 
     updateGender() {
+        let gender = this.identifyGender(this.aRef.current.value)
         this.updateParentState((prevState) => (
             {[`member-${this.props.idNum}`]: {
-                'age': prevState.age, 
-                'gender': `${this.identifyGender(this.aRef.current.value)}`
+                'age': prevState[`member-${this.props.idNum}`].age, 
+                'gender': gender,
+                'relation': `${this.aRef.current.value.toLowerCase()}`
             }}
         ))
     }
@@ -267,7 +382,7 @@ class FamilyMember extends Component {
 
     render() {
         return (
-            <select ref={this.aRef} style={{'float': 'right'}} name="family-member" onChange={() => this.updateGender()}>
+            <select className="family-member" ref={this.aRef} style={{'float': 'right'}} name="family-member" onChange={() => this.updateGender()}>
                 {this.familyArray.map((member) => <option value={member.toLowerCase()}>{member}</option>)}
             </select>
         )

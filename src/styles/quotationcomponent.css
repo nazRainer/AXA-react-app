@@ -1,0 +1,68 @@
+.plan-div {
+    padding: 20px 0 20px 0;
+}
+
+.individual-plan {
+    background-color: #f8f8f8;
+    font-size: 20px;
+    color: #1a1a1a;
+    margin: 0 20px 0 20px;
+    padding: 20px 40px 20px 40px;
+    width: 250px;
+    border-radius: 5px;
+}
+
+.plan-header {
+    position: relative;
+    text-align: center;
+    color: #1a1a1a;
+    font-size: 1.5em;
+}
+
+.plan-price {
+    padding: 15px 0px 15px 0px;
+    text-align: center;
+    font-size: 1.3em;
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+}
+
+.plan-price span {
+    font-size: 0.65em;
+    font-weight: 400;
+}
+
+.plan-annual-limit {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.plan-info {
+    position: relative;
+    font-size: 0.8em;
+    padding: 20px 0 20px 0;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+.plan-info li {
+    padding: 2px 0 2px 0;
+}
+
+.choose-plan-btn {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.choose-plan-btn:hover {
+    opacity: 0.8;
+}
