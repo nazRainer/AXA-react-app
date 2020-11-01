@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4b35ed46974af9907212a8d588360610",
+    "revision": "ea95c99cb6f3dabaeb8cc232cbc6f875",
     "url": "/AXA-react-app/index.html"
   },
   {
-    "revision": "5e63df701ccff1102d47",
+    "revision": "caa651fc1d47a31e6769",
     "url": "/AXA-react-app/static/css/main.80c43c54.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/AXA-react-app/static/js/2.b9edb39b.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "5e63df701ccff1102d47",
-    "url": "/AXA-react-app/static/js/main.ca3760c0.chunk.js"
+    "revision": "caa651fc1d47a31e6769",
+    "url": "/AXA-react-app/static/js/main.2b6c54d2.chunk.js"
   },
   {
     "revision": "86fb7e1f90e529384706",

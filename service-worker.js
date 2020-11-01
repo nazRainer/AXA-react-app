@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/AXA-react-app/precache-manifest.5d38d93dc2fe49e438a9f23933ab135b.js"
+  "/AXA-react-app/precache-manifest.1f43f8ed1b1ca27dafce71f5372cfc03.js"
 );
 
 self.addEventListener('message', (event) => {
