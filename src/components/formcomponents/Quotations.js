@@ -25,7 +25,7 @@ class Quotations extends Component {
         let response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Authorization': 'Basic c3RldmVAY3VybGVjLmNvbTo0I3c0N0ptcEVqWmVtSmpA'
+                
             }
         });
 
