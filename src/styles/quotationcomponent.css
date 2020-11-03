@@ -1,9 +1,18 @@
+.form-component-quote {
+    font-size: 3em;
+    font-family: 'Montserrat', sans-serif;
+    animation-name: fadein;
+    animation-delay: 0.2s;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    color: #f8f8f8;
+}
+
 .plan-div {
     padding: 20px 0 20px 0;
 }
 
 .individual-plan {
-    background-color: #f8f8f8;
     font-size: 20px;
     color: #1a1a1a;
     margin: 0 20px 0 20px;
@@ -65,4 +74,51 @@
 
 .choose-plan-btn:hover {
     opacity: 0.8;
+}
+
+@media screen and (min-width: 500px) {
+    .form-component-quote {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+
+/*mobile media query*/
+@media screen and (max-width: 500px) {
+    .form-header-wrapper {
+        padding-top: 2em;
+    }
+
+    .plan-div {
+        padding: 20px 0 20px 0;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }    
+
+    .individual-plan {
+        background-color: #f8f8f8;
+        font-size: 20px;
+        color: #1a1a1a;
+        margin: 0.5em 20px 0.5em 20px;
+        padding: 20px 40px 20px 40px;
+        width: 70vw;
+        border-radius: 5px;
+    }
+
+    .form-component-quote {
+        font-size: 2em;
+        position: relative;
+        font-family: 'Montserrat', sans-serif;
+        animation-name: fadein;
+        animation-delay: 0.2s;
+        animation-duration: 1s;
+        animation-timing-function: ease-in-out;
+        color: #f8f8f8;
+    }
 }

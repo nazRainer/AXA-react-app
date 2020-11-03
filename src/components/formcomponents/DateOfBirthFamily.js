@@ -109,10 +109,12 @@ class DateOfBirthFamily extends Component {
                 />
                 {this.state.memberList}
                 <div className={this.state.class}>Your child needs to be younger than 16 years old</div>
-                <div style={{'position': 'relative', 'display': 'flex', 'justifyContent': 'space-between'}}>
-                    <div className={'proceed-btn'} onClick={this.addMember}>Add Member</div>
-                    <div className={'proceed-btn'} onClick={this.removeMember}>Remove Member</div>
-                    <div className={'proceed-btn'} 
+                <div className={'family-btn-wrapper'} style={{'position': 'relative', 'display': 'flex', 'justifyContent': 'space-between'}}>
+                    <div className={'add-remove-btn-wrapper'} style={{'display': 'flex'}}>
+                        <div className={'proceed-btn'} onClick={this.addMember}>Add Member</div>
+                        <div className={'proceed-btn'} onClick={this.removeMember}>Remove Member</div>
+                    </div>
+                    <div className={'center proceed-btn'} 
                         onClick={() => {
                             console.log(this.state);
                             this.proceed();  
@@ -176,8 +178,8 @@ class DateOfBirthFamilyRow extends Component {
     render() {
         return (
             <div className='dob-family-row' style={{'position': 'relative', 'display': 'flex', 'flex-direction': 'column'}}>
-                <div style={{'display': 'flex', 'justifyContent': 'space-between'}}>
-                    <div style={{'float': 'left'}}>   
+                <div className={'family-row-wrapper'} style={{'display': 'flex', 'justifyContent': 'space-between'}}>
+                    <div /*style={{'float': 'left'}}*/>   
                         <DateOfBirthFamilyMember
                             updateState={this.updateState}
                             incrementCompleteCount={this.incrementCompleteCount}
@@ -186,7 +188,7 @@ class DateOfBirthFamilyRow extends Component {
                             idNum={this.props.idNum}
                         />
                     </div>
-                    <div style={{'float': 'right'}}>
+                    <div style={{'float': 'left'}}>
                         <FamilyMember 
                             familyArray={this.familyArray}
                             updateParentState={this.updateParentState}
@@ -382,7 +384,7 @@ class FamilyMember extends Component {
 
     render() {
         return (
-            <select className="family-member" ref={this.aRef} style={{'float': 'right'}} name="family-member" onChange={() => this.updateGender()}>
+            <select className="family-member" ref={this.aRef} /*style={{'float': 'right'}}*/ name="family-member" onChange={() => this.updateGender()}>
                 {this.familyArray.map((member) => <option value={member.toLowerCase()}>{member}</option>)}
             </select>
         )

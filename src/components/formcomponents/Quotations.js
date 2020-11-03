@@ -98,8 +98,9 @@ class Quotations extends Component {
     render() {
 
         return (
-            <div className="form-component">
+            <div className="form-component-quote">
                 <div
+                    className="form-header-wrapper"
                     style={{
                         position: "relative",
                         display: "flex",
